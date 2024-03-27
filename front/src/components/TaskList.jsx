@@ -1,10 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import "./assets/AddTask.css"
+import {Link} from "react-router-dom"
 
-function AddTask() {
+function TaskList() {
   return (
-   <>
+    <>
      <header className="header-area">
  
  <div className="navbar-area">
@@ -38,22 +37,16 @@ function AddTask() {
    <div className="inner container">
     
      <div className="form-box">
-     <h3>Add New Task</h3>
+     <h3>List Of Your Tasks</h3>
 
-     <form>
-        <input type="text" placeholder="Task Name"/>
-        <input type="text" placeholder="Task Description"/>
-        <input type="date" placeholder="Task Start Date"/>
-        <input type="date" placeholder="Task End Date"/>
-        <input type="date" placeholder="Created Date"/>
-     </form>
+    
      <button class="custom-btn btn"><span>Add Task</span></button>
      </div>
    </div>
  </div>
 </header>
-   </>
+    </>
   )
 }
 
-export default AddTask
+export default TaskList
