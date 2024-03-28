@@ -6,7 +6,7 @@ import com.example.demo.model.Task;
 
 public interface TaskService {
 
-    Task saveTask(Task task);
+    String saveTask(Task task);
 
     Task updateTask(Task task, Integer id);
 
