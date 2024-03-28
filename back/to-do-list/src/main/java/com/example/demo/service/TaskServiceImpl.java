@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.TaskNotFoundException;
 import com.example.demo.model.Task;
 import com.example.demo.repository.TaskRepository;
 
@@ -19,15 +21,31 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task saveTask(Task task) {
+    public String saveTask(Task task) {
 
-        return taskRepository.save(task);
+        taskRepository.save(task);
+        return "user successfully saved";
     }
 
     @Override
     public Task updateTask(Task task, Integer taskId) {
 
-        return null;
+        Optional<Task> foundTask = taskRepository.findById(taskId);
+
+        if (foundTask.isPresent()) {
+            Task existingTask = foundTask.get();
+
+            existingTask.setTaskName(task.getTaskName());
+            existingTask.setTaskDescription(task.getTaskDescription());
+            existingTask.setTaskStartDate(task.getTaskStartDate());
+            existingTask.setTaskEndDate(task.getTaskEndDate());
+            existingTask.setCreatedAt(task.getCreatedAt());
+
+            return taskRepository.save(existingTask);
+        } else {
+            throw new TaskNotFoundException("Task with ID " + taskId + " not found");
+        }
+
     }
 
     @Override
@@ -38,7 +56,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Integer taskId) {
 
-        taskRepository.deleteById(taskId);
+        Optional<Task> availableTask = taskRepository.findById(taskId);
+
+        if (availableTask.isPresent()) {
+            taskRepository.deleteById(taskId);
+        } else {
+            throw new TaskNotFoundException("Task with ID " + taskId + " not found");
+        }
+
     }
 
 }
